@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>大数相加</title>
+</head>
+<body>
+<script>
+    // 不考虑负整数
+    function add(num1, num2) {
+        if (typeof num1 !== 'string' || typeof num2 !== 'string') {
+            return;
+        }
+        const reg = /^\d+$/;
+        if (!reg.test(num1)||!reg.test(num2)) {
+            return;
+        }
+        let i=num1.length-1;
+        let j=num2.length-1;
+        // 进位
+        let over = 0;
+        let res = '';
+        while(i>=0||j>=0) {
+            let n1 = i>=0?num1[i]-'0':0;
+            let n2 = j>=0?num2[j]-'0':0;
+            let sum = n1+n2+over;
+            over = 0;
+            if (sum>9) {
+                sum = sum- 10;
+                over = 1;
+            }
+            res = sum + res;
+            i--;
+            j--;
+        }
+        return res;
+    }
+</script>
+</body>
+</html>

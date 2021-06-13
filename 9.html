@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组合继承优化</title>
+</head>
+<body>
+<script>
+    // 组合继承优化
+    // 不会初始化两次实例方法/属性，避免的组合继承的缺点
+    // 缺点：没办法辨别实例时子类还是父类创造的，子类和父类的构造函数指向同一个
+    function Person(name, age) {
+        this.nam = name;
+        this.age = age;
+        this.setAge = function() {}
+    }
+    Person.prototype.setAge = function() {
+        console.log('111');
+    };
+    function Student(name, age, price) {
+        Person.call(this, name,age);
+        this.price = price;
+        this.setScore = function() {}
+    }
+    Person.prototype.sayHello = function() {
+        console.log('hello');
+    }
+    Student.prototype = Person.prototype;
+    var s1 = new Student('Tom', 20, 15000);
+    console.log(s1);
+</script>
+</body>
+</html>

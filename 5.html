@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>原型链</title>
+</head>
+<body>
+<script>
+    function Person() {
+    }
+    const person = new Person()
+    console.log(person.__proto__ === Person.prototype); //tuue
+    console.log(Person.prototype.constructor === Person); // true
+    console.log(Person.__proto__ === Function.prototype); // true
+    console.log(Function.__proto__ === Function.prototype); // true
+    console.log(Function.prototype.__proto__===Object.prototype); // true 1
+    console.log(Person.prototype.__proto__ ===Object.prototype); // true
+    console.log(Function.prototype instanceof Function);// false
+    console.log(Function.prototype instanceof Object); // true
+    console.log(Object instanceof Function); // true
+    console.log(Function instanceof Object); // true
+</script>
+</body>
+</html>

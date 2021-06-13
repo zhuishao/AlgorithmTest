@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>原型链+借用构造函数的组合继承</title>
+</head>
+<body>
+<script>
+    // 原型链+借用构造函数的组合继承
+    // 可以继承实例属性/方法，也可以继承原型属性/方法
+    // 不存在引用属性共享问题
+    // 可传参，函数可复用
+
+    function Person(name, age) {
+        this.name = name;
+        this.age = age;
+        this.setName = function() {}
+    }
+    Person.prototype.setAge = function(age) {
+        this.age = age;
+    }
+    function Student(name, age, price) {
+        Person.call(this, name, age);
+        this.price = price
+    }
+    Student.prototype = new Person();
+    Student.prototype.constructor = Student;
+
+    var s1 = new Student('Tom', 20, 15000);
+    console.log(s1);
+</script>
+</body>
+</html>

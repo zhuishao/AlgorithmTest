@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>对象相等</title>
+</head>
+<body>
+<script>
+    const equal = (a, b) => {
+        const aType = Object.prototype.toString.call(a);
+        const bType = Object.prototype.toString.call(b);
+        if (aType !== bType) {
+            return false;
+        }
+        let flag = true;
+        if (aType.includes('Object')) {
+            const aProps = Object.keys(a);
+            const bProps = Object.keys(b);
+            if (aProps.length !== bProps.length) {
+                return false;
+            }
+            for (let i = 0; i < aProps.length; i += 1) {
+                const propName = aProps[i];
+                if (bProps.indexOf(propName) !== -1) {
+                    if (!equal(a[propName], b[propName])) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+        }
+        if (aType.includes('Array')) {
+            if (a.length !== b.length) {
+                return false;
+            }
+            for (let i = 0; i < a.length; i += 1) {
+                if (!equal(a[i], b[i])) {
+                    return false;
+                }
+            }
+        }
+        if (flag && !aType.includes('Array') &&!aType.includes('Object')) {
+            flag = a === b;
+
+        }
+        return flag;
+    };
+    console.log(equal({},{})); // true
+    console.log(equal({s:1},{s:1})); // true
+    console.log(equal({s:'1'},{s:1})); // false
+    console.log(equal({s:null},{s:null})); // true
+    console.log(equal({s: undefined},{s: undefined})); // true
+    console.log(equal({s: Infinity},{s: Infinity}))  // true
+    console.log(equal({s: {}},{s: Infinity}))  // true
+    console.log(equal(null, undefined)); // false
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>继承</title>
+</head>
+<body>
+<script>
+    // 原型链继承
+    // 父类元素新增原型方法、原型属性，子类都能访问到
+    // 简单，易于实现
+    // 缺点：1.无法实现多继承，2.来自原型对象的所有属性被所有子类共享。3.要创建子类实例时，无法向父类构造函数传参
+    // 4. 要想为子类新增属性和方法，必须要在Student.prototype = new Person() 之后执行，不能放到构造器中
+    function Person(name, age) {
+        this.name = name;
+        this.age = age;
+        this.play = [1,2,3];
+        this.setName = function(name) {
+            this.name = name;
+        };
+    }
+    Person.prototype.setAge = function(age) {
+        this.age = age;
+    }
+    function Student(price) {
+        this.price = price;
+        this.setScore = function() {}
+    }
+    Student.prototype = new Person();
+    var s1 = new Student(15000);
+    var s2 = new Student(14000);
+    s1.setName('zhuishao');
+    s1.setAge(24);
+    console.log(s1, s2);
+
+
+
+
+    // 多继承
+    // function Animal(sex) {
+    //     this.sex = sex;
+    // }
+    // function Person(name, age) {
+    //     this.name = name;
+    //     this.age = age;
+    // }
+    // Person.prototype.setAge = function () {
+    //     console.log("111")
+    // }
+    // function Student(name, age, price,sex) {
+    //     Person.call(this, name, age)
+    //     Animal.call(this,sex);
+    //     this.price = price
+    //     this.setScore = function () {}
+    // }
+    // Student.prototype = Object.create(Person.prototype)//核心代码
+    // Object.assign(Student.prototype, Animal.prototype);
+    // Student.prototype.constructor = Student//核心代码
+    // var s1 = new Student('Tom', 20, 15000, '男')
+    // console.log(s1 instanceof Student, s1 instanceof Person) // true true
+    // console.log(s1.constructor) //Student
+    // console.log(s1)
+
+    // 多重继承
+    // function Animal(sex) {
+    //     this.sex = sex;
+    // }
+    // Animal.prototype.saySex = function() {
+    //     console.log(this.sex);
+    // }
+    // function Person(name, age, sex) {
+    //     Animal.call(this, sex);
+    //     this.name = name;
+    //     this.age = age;
+    // }
+    // Person.prototype = Object.create(Animal.prototype);
+    // Person.prototype.constructor = Person;
+    // Person.prototype.setAge = function () {
+    //     console.log("111")
+    // }
+    // function Student(name, age,sex, price) {
+    //     Person.call(this, name, age,sex)
+    //     this.price = price
+    //     this.setScore = function () {}
+    // }
+    // Student.prototype = Object.create(Person.prototype)//核心代码
+    // Student.prototype.constructor = Student//核心代码
+    // var s1 = new Student('Tom', 20,'男', 15000)
+    // console.log(s1 instanceof Student, s1 instanceof Person) // true true
+    // console.log(s1.constructor) //Student
+    // console.log(s1)
+</script>
+</body>
+</html>

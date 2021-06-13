@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件提交</title>
+</head>
+<body>
+<script>
+// on,emit,off,once
+    class EventEmitter {
+        constructor() {
+            this.handlers = {};
+        }
+        on(name, callback) {
+            if (!name||!callback) {
+                return;
+            }
+            if (!this.handlers[name]) {
+                this.handlers[name] = [callback];
+            } else {
+                this.handlers[name].push(callback);
+            }
+        }
+        emit(name, ...args) {
+            // 不存在
+            if (!this.handlers[name]) {
+                return;
+            }
+            const callbacks = this.handlers[name];
+            if (Object.prototype.toString.call(callbacks).includes('Array')) {
+                for (let i = 0;i < callbacks.length; i += 1) {
+                    if (typeof callbacks[i] === 'function') {
+                        callbacks[i](...args);
+                    }
+                }
+            }
+        }
+        off(name, event) {
+            if (Reflect.has(this.handlers, name)) {
+                let i = this.handlers[name].indexOf(event);
+                if (i>-1) {
+                    this.handlers[name].splice(i, 1);
+                }
+            }
+        }
+        once(name, callback) {
+            const self = this;
+            const fn = function() {
+                const args = [].slice.call(arguments);
+                callback.apply(null, args);
+                self.off(name, fn);
+            }
+            this.on(name, fn);
+        }
+    }
+    const emitter = new EventEmitter();
+    const a=3;
+    const b=2;
+    function AddTwo(a, b) {
+        console.log(a,b);
+    }
+    emitter.once('addTwo', AddTwo)
+    emitter.emit('addTwo', a,b);
+    emitter.emit('addTwo', a,b);
+</script>
+</body>
+</html>
